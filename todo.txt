@@ -1,0 +1,22 @@
+  # Thought
+  
+    see transform_rules/note.txt
+
+  # TODO
+
+  - Customize/rewrite Series[]
+  
+  # About Symmetry
+  
+  - Now the symmetry is implemented by (A is a tensor with symmetry):
+  
+     1. D[A_(a,b), A_(c,d)] = 0     if (a,b) & (c,d) in different equivalent classes
+     
+                            = 1/n   if (a,b) & (c,d) in the same equivalent class S, and
+                                    n is the |S|.
+     
+     2. D[ B[A], A ] = Derivative [no_symmetry_information] [B] [A] : D[A,A]
+     
+  - Better to store symmetry information in Derivative when A is simple:
+  
+        Derivative [(a,b)] [B] [A]

@@ -1,0 +1,170 @@
+(* ::Package:: *)
+
+Begin["SymbolicTensor`temp`"];
+
+
+With[
+	{
+		ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+		OFML = SymbolicTensor`Utility`OrderedFreeMemberList,
+		DIL = SymbolicTensor`Utility`DumbIndexList,
+		DI = SymbolicTensor`Utility`DuplicatedIndexQ
+	},
+	
+(**     OrderedFreeMemberList
+  *
+  *   - return a subset of 'is' ordered by its apperances in 'x' as free index
+  *   - 'is' should be wrapped by Verbatim properly.
+  *   - result is NOT wrapped by Verbatim.
+  *)
+	OFML[x_, is_] := Block[
+		{ ois = {} },
+		
+		x /. {
+			s : ScH[x1_, vrs_, ___]
+				:> (ois = Join[ ois, OFML[ x1, Select[ is, \[Not] MemberQ[vrs, {#, ___}]& ] ] ]; s),
+			i : (Alternatives @@ is) :> (ois = Append[ ois, i ]; i)
+			(* Verbatim is stripped here for 'i' *)
+		};
+		ois
+	];
+	
+	OFML[x_, {}] := {};
+
+(**     DumbIndexList
+ *
+ *    - return dumb index List for a closed-scope expression (e.g. SymbolicTensor)
+ *    - if 'vrs' has Orderless head, order in the result is determinated by their
+ *      appearance order in x, and then order in vrs.
+ *)	
+(*	DIL[ s1 : ScH[x1_, vrs1 : vh1_[___], opt1___] ] :=  If[
+		MemberQ[ Attributes[ vh1 ], Orderless ],
+		
+		DeleteDuplicates @ Cases[
+			s1,
+			Verbatim /@ Alternatives @@ Cases[ Reverse @ vrs1, {i_, ___} :> i ],
+			Infinity, Heads -> True
+		],
+		(* use Cases here instead of vrs\[LeftDoubleBracket]All, 1\[RightDoubleBracket] to get rid of vrs' head *)
+		Cases[ Reverse @ vrs1, {i_, ___} :> i ]
+	];*)
+	
+	DIL[ s : ScH[ x_, vrs : vh_[___], opt___] ] 
+		/; MemberQ[ Attributes[ vh ], Orderless ]
+		:=  DeleteDuplicates @ Join[
+			OFML[ x, Verbatim /@ vrs[[All, 1]] ],
+			Cases[ vrs, {i_, ___} :> i ]
+		];
+
+	DIL[ s : ScH[ x_, vrs : vh_[___], opt___] ]
+		:= Cases[ Reverse @ vrs, {i_, ___} :> i ];
+
+(**     DuplicatedIndexQ
+ *
+ *    - return true if there is duplicated index in closed-scope expression
+ *)
+(*	DI[ s : ScH[x_, vrs_, ___] ] := Block[
+		{ is = DIL[ s ] },
+		
+		is =!= DeleteDuplicates[ is ]
+	];*)
+]
+
+
+
+(*With[
+	{ O = SymbolicTensor`Utility`OccurQ },
+	
+(**     OccurQ
+ *
+ *    - return true if 'a' occurs in 'x'
+ *)	
+	O[ x_, a_ ] := (
+		If[
+			MatchQ[a, _Condition|_PatternTest|_Pattern], 
+			Message[O::pat, HoldForm[a]]
+		];
+		Count[ x, a, Infinity, Heads -> True ] =!= 0
+	);
+	
+	O::pat = "pattern-like rule left side `1` is used";
+]
+*)
+
+
+With[
+	{ 
+		ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+		
+		FMQ = SymbolicTensor`Utility`FreeMemberQ
+	},
+
+(**     FreeMemberQ[s, i]
+  *
+  *   - return true if 'i' occurs in 'x' but not as a dumb index
+  *   - 'i' should be wrapped by Verbatim properly.
+  *)
+  
+	(*FMQ[ s : ScH[x1_, vrs_, ___], a_ ] := \[Not] MemberQ[vrs, {a, ___}] \[And] O[ s, a ];*)
+	
+	FMQ[ x_, i_ ] := Block[
+		{ presence = False },
+		
+		x /. {
+			s : ScH[x1_, vrs_, ___] /; MemberQ[vrs, {i, ___}] :> s,
+			i :> (presence = True; i)
+		};
+		
+		presence
+	];
+]
+
+
+With[
+	{
+		UP = SymbolicTensor`Utility`UnionPartition,
+		ES = SymbolicTensor`Utility`UnionPartition`EmptySum
+	},
+	
+(**     UnionPartition
+  *
+  *   - UnionPartition[sets, universe] gives a replacement list 'rpl' which satisfies
+  *       + 'index //. rpl' gives ID of the partition cluster that 'index' is in.
+  *       + 'rpl' contains 'ES -> ES_ID' if
+  *           * 'sets' doesn't cover 'universe', which means there are unused indexes; 
+  *           * or there is empty set in 'sets', which means some terms don't use any index.
+  *
+  *   - Complement[ rpl[[All, 1]], rpl[[All, 2]] ] gives a list of all used indexes in 'sets'
+  *     wrapped by Verbatim, along with ES if needed.
+  *
+  *   - Complement[ rpl[[All, 2]], rpl[[All, 1]] ] gives a list of partition clusters' IDs.
+  *)
+	UP[ sets : {__List}, univ_List ] := Block[
+		{ rpl = {}, unused },
+	
+		(set \[Function] With[
+			{ setID = Unique[] },
+			
+			If[ set === {},
+				If[ (ES //. rpl) === ES, AppendTo[ rpl, ES -> setID ]],
+				(vertex \[Function]
+					If[ (vertex //. rpl) === vertex,
+						AppendTo[ rpl, Verbatim[vertex] -> setID ],
+						If[ (vertex //. rpl) =!= setID,
+							AppendTo[ rpl, (vertex //. rpl) -> setID ]
+						]
+					]) /@ set
+			]
+		]) /@ sets;
+		
+		unused = Complement[ Verbatim /@ univ, Complement[ rpl[[All, 1]], rpl[[All, 2]] ] ];
+		
+		If[ (ES //. rpl) === ES \[And] unused === {},
+			rpl,
+			Append[ rpl, ES -> Unique[] ]
+		]
+	];
+]
+
+
+End[];

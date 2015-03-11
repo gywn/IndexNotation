@@ -1,0 +1,15 @@
+
+    M-T ╶► T-M  ╶╮                                            
+    P-T ╶► T-P   ├►   T-(S,P,M)      ╶╮                       
+    S-T ╶► T-S  ╶╯                    │                       
+                                      ├─►    T-(P,M)-S-M      
+    S-M-P ╶► S-P-M  ╶╮                │                       
+    S-P   ╶► P-S     ├►  (P,M)-S-M   ╶╯                       
+    S-M-S ╶► S-M    ╶╯                                                                
+              
+    T - Tensor       S - Sum
+    P - Plus         M - Times
+    
+    
+  - Putting T-(S,P,M) into automatic rewritting rules instead of
+    SymbolicSymplify makes tensor derivatives possible.
