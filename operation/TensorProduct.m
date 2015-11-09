@@ -13,12 +13,13 @@ With[
         indexfunc = SymbolicTensor`DumbIndex
     },
     
-    
-    ST[s_ST, vrs2_] :=  Block[
-        {x, vrs1},
+    ST /: ( s1 : ST[_, _] )\[TensorProduct]( s2 : ST[_, _] ) := Block[
+        {x1, vrs1, x2, vrs2},
         
-        ST[x, vrs1] = ScU[s];
-        ScT[indexfunc] @ ST[ x, Join[vrs1, vrs2] ]
+        ST[x1, vrs1] = ScU[s1];
+        ST[x2, vrs2] = ScU[s2];
+        
+        ScT[indexfunc] @ ST[ x1 x2, Join[vrs2, vrs1] ]
     ];
 ]
 

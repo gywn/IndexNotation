@@ -5,10 +5,10 @@ Begin["SymbolicTensor`temp`"];
 
 With[
     {
-    	ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
-    	
-    	OcS = SymbolicTensor`Utility`OccurrenceSequence,
-    	DIL = SymbolicTensor`Utility`DumbIndexList
+        ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+        
+        OcS = SymbolicTensor`Utility`OccurrenceSequence,
+        DIL = SymbolicTensor`Utility`DumbIndexList
     },
     
 (**     DumbIndexList
@@ -20,16 +20,15 @@ With[
     
     (* OPTIMIZATION: opt___ can be ___ ? *)
     
-    DIL[ s : ScH[ x_, vrs : vh_[___], opt___], eis_List ] 
-    	/; MatchQ[vh, _Symbol] && MemberQ[ Attributes[vh], Orderless ]
-    	:= Block[
-    		{is = Cases[ vrs, {i_, ___} :> i ]},
-    		
-    		Select[ OcS[ {x, vrs, opt}, Join[eis, is] ], MemberQ[ is, Verbatim[#] ]& ]
-    	];
+    DIL[ s : ScH[ x_, vrs : vh_[___], opt___], eis_List ] := If[
+        MemberQ[ Attributes[vh], Orderless ],
+        Block[
+            { is = Cases[ vrs, {i_, ___} :> i ] },
 
-    DIL[ s : ScH[ x_, vrs : vh_[___], opt___], _List ]
-    	:= Cases[ Reverse @ vrs, {i_, ___} :> i ];
+            Select[ OcS[ {x, vrs, opt}, Join[eis, is] ], MemberQ[ is, Verbatim[#] ]& ]
+        ],
+        Cases[ Reverse @ vrs, {i_, ___} :> i ]
+    ];
 ]
 
 

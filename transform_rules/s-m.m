@@ -10,7 +10,8 @@ With[
                 
         OcS = SymbolicTensor`Utility`OccurrenceSequence,
         UP = SymbolicTensor`Utility`UnionPartition,
-        ES = SymbolicTensor`Utility`UnionPartition`EmptySum,
+        iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum,
+        rES = SymbolicTensor`Utility`UnionPartition`ReducibleEmptySum,
         
         ScT = SymbolicTensor`Scope`Transform,
         
@@ -20,33 +21,47 @@ With[
         idx = SymbolicTensor`temp`IndexesFragment
     },
     
-    SS[ Times[ x_, y__ ], vrs_ ] := Block[
-        { univ, mlps, clrpl, unused, clmlp, clvar },
+    s : SS[ p_Times | c_ ? AtomQ, vrs_ ] := Block[
+        {x, is, mlps, clrpl, clids, valid, clmlp, clvar, free = 1},
         
-        univ = Cases[ vrs, {i_, ___} :> i ];
-        mlps = <| mlp -> #, idx -> OcS[ #, univ ] |> & /@ {x,y};
-        clrpl = UP[ mlps[[All, Key @ idx]], univ ];
-        unused = Keys @ Select[ clrpl, # === ES & ];
+        x = p c;
+        is = Cases[ vrs, {i_, ___} :> i ];
+        mlps = AssociationMap[ OcS[#, is]&, If[ AtomQ[x], {x}, List @@ x ] ];
+        clrpl = UP[ Values[mlps], vrs ];
+        clids = DeleteDuplicates @ Values[clrpl];
+ 
+        valid = Length[clids] > 1 || clids === {rES}; 
         If[
-            unused =!= {},
-            AppendTo[ mlps, <| mlp -> 1, idx -> unused |> ]
-        ];
-        
-        clmlp = GroupBy[
-            mlps,
-            If[ #[idx] === {}, ES, #[idx][[1]] //. clrpl ] &
-        ];
-        
-        (
-            clmlp = (ms \[Function] Times @@ ms[[All,Key @ mlp]]) /@ clmlp;
+            valid,
+
+            clmlp = GroupBy[
+                mlps,
+                If[ # === {}, rES, #[[1]] /. clrpl ] &
+            ];
+            clmlp = (ms \[Function] Times @@ Keys @ ms) /@ clmlp;
+            If[
+                KeyExistsQ[clmlp, rES],
+                free = clmlp[rES]; KeyDropFrom[clmlp, rES]
+            ];
+            If[
+                MemberQ[clids, iES],
+                clmlp[iES] = 1
+            ];
             
             clvar = SI[] & /@ clmlp;
-            (vr \[Function] AppendTo[ clvar[vr[[1]] //. clrpl], vr ]) /@ vrs;
-        
-            ScT[indexfunc][ Times @@ Values @ MapThread[ SS, {clmlp,clvar} ] ] 
-        )
-            /; Length[ clmlp ] =!= 1
-        
+            free = free Times @@ ( (vr \[Function] Block[
+                {clid = vr[[1]] /. clrpl},
+
+                If[
+                    clid === rES,
+                    vr[[2]],
+                    AppendTo[ clvar[clid], vr ]; 1
+                ]
+            ]) /@ vrs );
+            
+            free ScT[indexfunc][ Times @@ Values @ MapThread[ SS, {clmlp, clvar} ] ] 
+        ]
+            /; valid
     ];
 ]
 

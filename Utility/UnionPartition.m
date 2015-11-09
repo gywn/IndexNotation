@@ -5,42 +5,49 @@ Begin["SymbolicTensor`temp`"];
 
 With[
     {
-    	ES = SymbolicTensor`Utility`UnionPartition`EmptySum,
-    	UP = SymbolicTensor`Utility`UnionPartition
+        iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum,
+        rES = SymbolicTensor`Utility`UnionPartition`ReducibleEmptySum,
+        UP = SymbolicTensor`Utility`UnionPartition
     },
     
 (**     UnionPartition
   *
-  *   - UnionPartition[sets, universe] gives a replacement list 'rpl' which satisfies
-  *       + if 'index' is used in 'sets', 'index //. rpl' gives ID of the partition 
+  *   - UnionPartition[sets, vrs] gives a replacement list 'rpl' which satisfies
+  *       + if 'index' is used in 'sets', 'index /. rpl' gives ID of the partition 
   *         cluster that 'index' is in;
-  *       + if 'index' is unused, 'index //. rpl' gives 'ES'.
+  *       + if 'index' is unused and irreducible (doesn't have a order n), 'index /. rpl' gives 'iES'.
+  *       + if 'index' is unused and reducible (have a order n), 'index /. rpl' gives 'rES'.
   *
   *   - 'Complement[ Values[rpl], Keys[rpl] ]' gives a list of partition clusters' IDs
-  *     mixed with 'ES' if there is one.
-  *   
-  *   - 'Keys @ Select[ rpl, # === ES & ]' gives the list of unused indexes.
+  *     mixed with 'rES' and 'iES' if there is any.
   *)
-    UP[ sets : {__List}, univ_List ] := Block[
-    	{ rpl = <||>, unused },
+    UP[ sets : {__List}, vrs_ ] := Block[
+        {is, ris, rpl = <||>, used},
+        
+        is = Cases[ vrs, {i_, ___} :> i ];
+        ris = Cases[ vrs, {i_, n_, ___} :> i ];
     
-    	(set \[Function] With[
-    		{ setID = Unique[] },
-    		
-    		(vertex \[Function]
-    			If[ \[Not] KeyExistsQ[rpl, vertex],
-    				AssociateTo[ rpl, vertex -> setID ],
-    				If[ (vertex //. rpl) =!= setID,
-    					AssociateTo[ rpl, (vertex //. rpl) -> setID ]
-    				]
-    			]) /@ set
+        (set \[Function] With[
+            { setid = Unique[] },
+            
+            (vertex \[Function]
+                If[
+                    KeyExistsQ[rpl, vertex],
+                    Block[
+                        {sid = vertex //. rpl},
 
-    	]) /@ sets;
-    	
-    	unused = Complement[ univ, Complement[ Keys[rpl], Values[rpl] ] ];
-    	(vertex \[Function] AssociateTo[ rpl, vertex -> ES ]) /@ unused;
-    	
-    	# //. rpl & /@ rpl   (* accelerate clustering by shortening reference path *)
+                        If[ sid =!= setid, rpl[sid] = setid ]
+                    ],
+                    rpl[vertex] = setid
+                ]) /@ set
+
+        ]) /@ sets;
+        
+        used = Complement[ Keys[rpl], Values[rpl] ];
+        (vertex \[Function] rpl[vertex] = rES) /@ Complement[ris, used];
+        (vertex \[Function] rpl[vertex] = iES) /@ Complement[is, ris, used];
+        
+        # //. rpl & /@ rpl   (* Accelerate clustering by shortening reference path *)
     ];
 ]
 

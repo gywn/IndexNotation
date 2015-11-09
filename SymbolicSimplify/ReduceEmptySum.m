@@ -17,7 +17,7 @@ With[
     },
     
     RES @ s : SS[ x_, SI[ {i_, n_, ___}, vs___ ] ]
-        /; \[Not] FMQ[ x, Verbatim @ i ]
+        /; \[Not] FMQ[x, i]
         := ScT[indexfunc][ n SS[x, SI[vs]] ];
 ]
 

@@ -5,31 +5,31 @@ Begin["SymbolicTensor`temp`"];
 
 With[
     { 
-    	ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
-    	
-    	PPQ = SymbolicTensor`Utility`PatternPresentQ,
-    	FMQ = SymbolicTensor`Utility`FreeMemberQ
+        ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+        
+        FrM = SymbolicTensor`Utility`FreeMember,
+        flt = SymbolicTensor`Utility`FreeMember`Flat,
+        FMQ = SymbolicTensor`Utility`FreeMemberQ
     },
 
 (**     FreeMemberQ[s, i]
   *
-  *   - return true if 'i' occurs in 'x' but not as a dumb index
-  *   - 'i' should be wrapped by Verbatim properly.
+  *   - Return True if 'i' occurs in 'x' but not as a dumb index
+  *   - Utility`FreeMember is similar to Utility`OccurrenceSequence, but a little bit faster.
   *)
-    FMQ[ x_, i_ ] := Block[
-    	{ presence = False },
-    	
-    	If[ PPQ[ i ], Message[FMQ::pat, HoldForm[i]] ];
-    	
-    	x /. {
-    		s : ScH[x1_, vrs_, ___] /; MemberQ[vrs, {i, ___}] :> s,
-    		i :> (presence = True; i)
-    	};
-    	
-    	presence
-    ];
-    
-    FMQ::pat = "pattern-like rule test element `1`"
+    SetAttributes[flt, Flat];
+
+    FrM[i_, i_] := i;
+
+    FrM[s : ScH[_, vh_[___, {i_, ___}, ___], ___], i_] := flt[];
+
+    FrM[s : ScH[_, vrs_, ___], i_] := FrM[List @@ s, i];
+
+    FrM[ h_[x1___], i_ ] := flt @@ (y \[Function] FrM[y, i]) /@ {h, x1};
+
+    FrM[x_, i_] := flt[];
+
+    FMQ[x_, i_] := FrM[x, i] =!= flt[];
 ]
 
 

@@ -23,8 +23,8 @@ With[
             { expr = HEAD[A1, A2_, 3.3][ B1_[2,C2], "S" ] },
         
             VerificationTest[
-                LC[ expr ],
-                LeafCount[ expr ],
+                LC[expr],
+                LeafCount[expr],
                 TestID -> "compare with system's LeafCount"
             ]
         ],

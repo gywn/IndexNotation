@@ -21,6 +21,8 @@ TestList = {
     "SymbolicTensorDev/unit/test/Scope/Transform.m",
     "SymbolicTensorDev/unit/test/Scope/UniqueIndex.m",
     
+    "SymbolicTensorDev/unit/test/TensorFlatten.m",
+    
     "SymbolicTensorDev/unit/test/transform_rules/m-t.m",
     "SymbolicTensorDev/unit/test/transform_rules/p-t.m",
     "SymbolicTensorDev/unit/test/transform_rules/s-t.m",
@@ -34,13 +36,26 @@ TestList = {
     "SymbolicTensorDev/unit/test/transform_rules/s-m.m",
     "SymbolicTensorDev/unit/test/transform_rules/mixed-2.m",
     
+    "SymbolicTensorDev/unit/test/transform_rules/s-d.m",
+    
     "SymbolicTensorDev/unit/test/SymbolicSimplify/ReduceEmptySum.m",
-    "SymbolicTensorDev/unit/test/SymbolicSimplify/LeafCount.m"
+    "SymbolicTensorDev/unit/test/SymbolicSimplify/LeafCount.m",
+    
+    "SymbolicTensorDev/unit/test/operation/Part.m",
+    "SymbolicTensorDev/unit/test/operation/TensorProduct.m",
+    "SymbolicTensorDev/unit/test/operation/TensorContract.m",
+    "SymbolicTensorDev/unit/test/operation/TensorTranspose.m"
 };
 
-(path \[Function] Block[
-    { tests = Get[path] },
-    
-    ( test \[Function] If[ test["Outcome"] =!= "Success", Print[path, ": ", test] ] )
-        /@ If[ MatchQ[ tests, _List], tests, {tests} ]
-]) /@ TestList;
+Block[
+    {time, count}, 
+
+    {time, count} = AbsoluteTiming[ ( path \[Function] Block[
+        { results = Get[path] },
+        
+        ( result \[Function] If[ result["Outcome"] =!= "Success", Print[path, ": ", result] ]; )
+            /@ If[ MatchQ[ results, _List], results, {results} ]
+    ] ) /@ TestList ];
+
+    Print["Used Time: ", time, " seconds\nRun Tests: ", Length @ Flatten @ count];
+]

@@ -14,7 +14,7 @@ With[
         indexfunc = SymbolicTensor`DumbIndex
     },
     
-    SS[ Times[ s_SS, y__ ], vrs2_ ] := Block[
+    SS[ Times[s_SS, y__], vrs2_ ] := Block[
         {x, vrs1},
         
         SS[x, vrs1] = ScU[s];

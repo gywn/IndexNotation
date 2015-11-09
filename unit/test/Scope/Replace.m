@@ -10,14 +10,14 @@ RecursiveGet[
 
 With[
     {
-    	ST = SymbolicTensor`SymbolicTensor,
-    	TI = SymbolicTensor`TensorIndex,
-    	
-    	SS = SymbolicTensor`SymbolicSum,
-    	SI = SymbolicTensor`SumIndex,
-    	
-    	ScR = SymbolicTensor`Scope`Replace,
-    	ScT = SymbolicTensor`Scope`Transform
+        ST = SymbolicTensor`SymbolicTensor,
+        TI = SymbolicTensor`TensorIndex,
+        
+        SS = SymbolicTensor`SymbolicSum,
+        SI = SymbolicTensor`SumIndex,
+        
+        ScR = SymbolicTensor`Scope`Replace,
+        ScT = SymbolicTensor`Scope`Transform
     },
     
 Block[

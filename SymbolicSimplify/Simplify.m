@@ -14,7 +14,7 @@ With[
         TS = SymbolicTensor`SymbolicSimplify`Simplify
     },
     
-    TS[ x_, assum___ ] := Simplify[ ScT[indexfunc][x], assum,
+    TS[x_, assum___] := Simplify[ ScT[indexfunc][x], assum,
         ComplexityFunction -> LC,
         TransformationFunctions -> {Automatic, RES}
     ];

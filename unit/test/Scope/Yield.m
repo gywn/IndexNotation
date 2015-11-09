@@ -10,14 +10,14 @@ RecursiveGet[
 
 With[
     {
-    	ST = SymbolicTensor`SymbolicTensor,
-    	TI = SymbolicTensor`TensorIndex,
-    	
-    	SS = SymbolicTensor`SymbolicSum,
-    	SI = SymbolicTensor`SumIndex,
-    	
-    	ScY = SymbolicTensor`Scope`Yield,
-    	ScT = SymbolicTensor`Scope`Transform
+        ST = SymbolicTensor`SymbolicTensor,
+        TI = SymbolicTensor`TensorIndex,
+        
+        SS = SymbolicTensor`SymbolicSum,
+        SI = SymbolicTensor`SumIndex,
+        
+        ScY = SymbolicTensor`Scope`Yield,
+        ScT = SymbolicTensor`Scope`Transform
     },
     
 Block[
@@ -26,8 +26,8 @@ Block[
     indexfunc[i_] := Idx[i];
     {
         VerificationTest[
-    	    ScT[indexfunc] @ ScY[ SS[ B[i,j], SI[{i},{j}] ], Sin[i] ],
-    	    SS[ B[Idx[1],Idx[2]], SI[{Idx[1]}, {Idx[2]}] ]
+            ScT[indexfunc] @ ScY[ SS[ B[i,j], SI[{i},{j}] ], Sin[i] ],
+            SS[ B[Idx[1],Idx[2]], SI[{Idx[1]}, {Idx[2]}] ]
         ]
     }
 ]    

@@ -17,7 +17,7 @@ With[
         indexfunc = SymbolicTensor`DumbIndex
     },
     
-    SS[ s_ST, vrs2_ ] := Block[
+    SS[s_ST, vrs2_] := Block[
         {x, vrs1},
         
         ST[x, vrs1] = ScU[s];

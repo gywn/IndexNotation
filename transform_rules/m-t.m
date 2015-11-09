@@ -14,14 +14,18 @@ With[
         indexfunc = SymbolicTensor`DumbIndex
     },
     
-    ST /: Times[ s_ST, y__ ]
-        /; \[Not] MemberQ[ {y}, _ST ]
-        := Block[
-            {x, vrs},
+    ST /: p : Times[s_ST, y__] := Block[
+        {x, vrs},
+
+        If[
+            \[Not] MemberQ[ {y}, _ST ],
 
             ST[x, vrs] = ScU[s];
-            ScT[indexfunc] @ ST[ Times[x,y], vrs ]
-        ];
+            ScT[indexfunc] @ ST[ Times[x, y], vrs ],
+
+            Hold[p]
+        ]
+    ];
 ]
 
 

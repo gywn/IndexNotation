@@ -17,7 +17,7 @@ With[
     
     SS[ Times[ Plus[x_, y__], z__ ], vrs_ ]
         (*/; OcS[ x, Verbatim /@ vrs[[All, 1]] ] =!= {}*)
-        := SS[ Times[x,z] + Times[ Plus[y], z ], vrs ];
+        := SS[ Times[x, z] + Times[ Plus[y], z ], vrs ];
 ]
 
 
