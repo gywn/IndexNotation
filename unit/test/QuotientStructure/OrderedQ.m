@@ -5,12 +5,15 @@
 RecursiveGet["QuotientStructure.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {    
         QOQ = SymbolicTensor`QuotientStructure`OrderedQ
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             QOQ[{Ind[1],Ind[2],Ind[3]}][ Ind[3], Ind[2] ], True,
             TestID -> "QuotientStructure`OrderedQ -- orderless terms"
@@ -27,3 +30,6 @@ With[
         ]
     }
 ]
+
+
+End[];

@@ -5,6 +5,9 @@
 RecursiveGet["TensorFlatten.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -15,7 +18,7 @@ With[
         TF = SymbolicTensor`TensorFlatten
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             TF @ ST[ a[i_, j_], TI[ {j_, 2}, {i_, 2} ] ],
             { {a[1, 1], a[1, 2]}, {a[2, 1], a[2, 2]} },
@@ -38,3 +41,6 @@ With[
         ]
     }
 ]
+
+
+End[];

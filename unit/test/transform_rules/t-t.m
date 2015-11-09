@@ -5,6 +5,9 @@
 RecursiveGet["transform_rules/t-t.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -14,7 +17,7 @@ With[
         ScT = SymbolicTensor`Scope`Transform
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             ST[ ST[ a[i,j], TI[{j}] ], TI[{i}] ],
             ST[a[DI[1],DI[2]],TI[{DI[2]},{DI[1]}]],
@@ -46,3 +49,6 @@ With[
         ]
     }
 ]
+
+
+End[];

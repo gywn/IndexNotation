@@ -45,7 +45,6 @@ With[
   *     cluster has always only one element. The fully correct algorithm is yet
   *     to be constructed.
   *)    
-    
     SetAttributes[sml, Orderless];
     
     sql[x1___, sql[x2___], x3___] := sql[x1, x2, x3];
@@ -96,9 +95,9 @@ With[
             cnt = Counts[Values @ loc];
             loc = QSr[is] @ AssociationMap[
                 Block[
-                    { cn = cnt @ #[[2]] },
+                    { c = cnt @ #[[2]] },
 
-                    #[[1]] -> { cn, If[ cn === 1, 0, #[[1]] ], #[[2]] }
+                    #[[1]] -> { c, If[ c === 1, 0, #[[1]] ], #[[2]] }
                 ]&,
                 loc
             ]; 

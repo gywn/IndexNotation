@@ -5,6 +5,9 @@
 RecursiveGet["Utility/OccurrenceSequence.m"];
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SS = SymbolicTensor`SymbolicSum,
@@ -19,7 +22,7 @@ With[
         OcS = SymbolicTensor`Utility`OccurrenceSequence
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             CoS[SS[A[i,4]+A[j,3],SI[{i},{j}]], {i,j}],
             Sequence[],
@@ -111,3 +114,6 @@ With[
         ]
     }
 ]
+
+
+End[];

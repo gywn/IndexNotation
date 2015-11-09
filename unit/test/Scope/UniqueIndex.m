@@ -5,6 +5,9 @@
 RecursiveGet["Scope/UniqueIndex.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -16,7 +19,7 @@ With[
         ScU = SymbolicTensor`Scope`UniqueIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             MatchQ[
                 ScU[ ST[ a_[SS[ a_, SI[{a_}] ]], TI[{a_}, {b_}]] ],
@@ -30,4 +33,4 @@ With[
 ]
 
 
-
+End[];

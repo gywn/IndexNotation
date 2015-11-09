@@ -5,10 +5,13 @@
 RecursiveGet["Utility/PatternPresentQ.m"];
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {PPQ = SymbolicTensor`Utility`PatternPresentQ},
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             PPQ @ Verbatim[m_],
             False,
@@ -22,3 +25,6 @@ With[
         ]
     }
 ]
+
+
+End[];

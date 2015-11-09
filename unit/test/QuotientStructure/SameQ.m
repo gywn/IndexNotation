@@ -5,12 +5,15 @@
 RecursiveGet["QuotientStructure.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {    
         QSQ = SymbolicTensor`QuotientStructure`SameQ
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             QSQ[{a,b,c,d}][a+b,c+d], True,
             TestID -> "QuotientStructure`SameQ -- simple case 1"
@@ -22,3 +25,6 @@ With[
         ]
     }
 ]
+
+
+End[];

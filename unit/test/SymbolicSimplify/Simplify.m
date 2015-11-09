@@ -5,6 +5,9 @@
 RecursiveGet["SymbolicSimplify/Simplify.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SS = SymbolicTensor`SymbolicSum,
@@ -18,7 +21,7 @@ With[
         TS = SymbolicTensor`SymbolicSimplify`Simplify
     },
         
-    {
+    Global`RESULTS = 
         VerificationTest[
             TS @ SS[ A, SI[{i,2},{j,2},{k,2}] ],
             8 A,
@@ -26,3 +29,6 @@ With[
         ]
     }
 ]
+
+
+End[];

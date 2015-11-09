@@ -5,6 +5,9 @@
 RecursiveGet["Utility/DumbIndexList.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -16,7 +19,7 @@ With[
         DIL = SymbolicTensor`Utility`DumbIndexList
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             DIL[ ST[0, TI[ {c_}, {b_}, {a_} ]], {} ],
             {a_, b_, c_},
@@ -86,4 +89,4 @@ With[
 ]
 
 
-
+End[];

@@ -52,12 +52,12 @@ TestList = {
 Block[
     {time, count}, 
 
-    {time, count} = AbsoluteTiming[ ( path \[Function] Block[
-        { results = Get[path] },
+    {time, count} = AbsoluteTiming[ ( path \[Function] (
+        Get[path]; (* Write to Global`RESULTS *)
         
-        ( result \[Function] If[ result["Outcome"] =!= "Success", Print[path, "\n", result] ] )
-            /@ If[ MatchQ[ results, _List], results, {results} ]
-    ] ) /@ TestList ];
+        ( result \[Function]  If[ result["Outcome"] =!= "Success", Print[path, "\n", result] ] )
+            /@ If[ MatchQ[ RESULTS, _List], RESULTS, {RESULTS} ]
+    ) ) /@ TestList ];
 
     Print["Used Time: ", time, " seconds\nRun Tests: ", Length @ Flatten @ count];
 ]

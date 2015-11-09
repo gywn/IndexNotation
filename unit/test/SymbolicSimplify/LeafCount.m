@@ -5,6 +5,9 @@
 RecursiveGet["SymbolicSimplify/LeafCount.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SS = SymbolicTensor`SymbolicSum,
@@ -18,7 +21,7 @@ With[
         LC = SymbolicTensor`SymbolicSimplify`LeafCount
     },
     
-    {
+    Global`RESULTS = {
         Block[
             { expr = HEAD[A1, A2_, 3.3][ B1_[2,C2], "S" ] },
         
@@ -36,3 +39,6 @@ With[
         ]
     }
 ]
+
+
+End[];

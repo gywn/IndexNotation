@@ -5,6 +5,9 @@
 RecursiveGet["SymbolicTensor.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -13,7 +16,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             ST[A, TI[]], A,
             TestID -> "SymbolicTensor -- identity_1"
@@ -89,4 +92,4 @@ With[
 ]
 
 
-
+End[];

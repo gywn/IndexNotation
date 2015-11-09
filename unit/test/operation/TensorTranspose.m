@@ -5,6 +5,9 @@
 RecursiveGet["operation/TensorTranspose.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -16,7 +19,7 @@ With[
         Tr = Transpose
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             TT @ ST[ a[i_, j_] b[k_, l_], TI[ {l_}, {k_}, {j_}, {i_} ] ],
             ST[ a[DI[2], DI[1]] b[DI[3], DI[4]], TI[ {DI[4]}, {DI[3]}, {DI[2]}, {DI[1]} ] ],
@@ -30,3 +33,6 @@ With[
         ]
     }
 ]
+
+
+End[];

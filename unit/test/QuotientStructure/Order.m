@@ -5,13 +5,16 @@
 RecursiveGet["QuotientStructure.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {    
         QO = SymbolicTensor`QuotientStructure`Order,
         wp = SymbolicTensor`QuotientStructure`Order`Wrapper
     },
     
-    {   
+    Global`RESULTS = {   
         VerificationTest[
             QO[ {a, b, c} ][a, b], 0,
             TestID -> "QuotientStructure`Order -- simple pure dumb indexes"
@@ -80,3 +83,6 @@ With[
         ]
     }
 ]
+
+
+End[];

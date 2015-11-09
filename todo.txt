@@ -1,63 +1,39 @@
-  # Thought
-  
-    see transform_rules/note.txt
 
   # TODO
 
   - Customize/rewrite Series[]
   
-  # Basic ordering comparison
-  
-    Suppose there is an ordering Or(x,y). For two ordered list (a1,a2, ...)
-    and (b1,b2, ...), if (a1==b1)&&(a2==b2)&&... then we have {a1,a2, ...} ==
-    {b1,b2, ...}.
-  
-  # Quotient ordering
-  
-    It means that the ordering treats some sub-expressions as sharing a same
-    order value. If we traverse the items of such two lists from small order
-    value to big order value, sub-expressions sharing same order value will be
-    visited 'simultaneously'.
-    
-    c.f. QuotientStructure`*
-    
-  # Reduce quotient ordering
-  
-    We can concretize *some* equivalent sub-expressions. It should be done in
-    a way that only iteration-order information is used ('simultaneously'
-    visited sub-expressions have eventually same iteration-order). It should
-    also be deterministic in a sense that other informations shall be taken
-    into accounts to distinguish two sub-expression iff they have exact same
-    iteration-order.
-    
-    For now OccurrenceSequence`* always concretize *all* equivalent sub-
-    expressions.
-    
-    We should first concretize dumb indexes in the inner-most scope, because
-    their iteration-order don't depend on outer world. Its deterministic
-    concretization serves as foundation of concretization of outer scope who
-    encloses it.
-    
-    However, the real values of all dumb indexes should be replaced by
-    something unique to give way to inner-most *deterministic*
-    concretization...
-    
-    For now Transform iterates from out-most scope to inner-most.
-  
-  # About Symmetry
-  
-  - Now the symmetry is implemented by (A is a tensor with symmetry):
-  
-     1. D[A_(a,b), A_(c,d)] = 0     if (a,b) & (c,d) in different equivalent classes
-     
-                            = 1/n   if (a,b) & (c,d) in the same equivalent class S, and
-                                    n is the |S|.
-     
-     2. D[ B[A], A ] = Derivative [no_symmetry_information] [B] [A] : D[A,A]
-     
-  - Better to store symmetry information in Derivative when A is simple:
-  
-        Derivative [(a,b)] [B] [A]
+  # QuotientStructure
 
+    Calculate the equivalence of two QuotientStructure is very difficult. If a
+    index has an unique location (see Utility`OccurrenceSequence`FillLocation),
+    then we can label this index in a unique way (since such type of location
+    is orderable). But if two or more indexes share a same location, things
+    will become much more complicated. For example:
+
+        ┌─╴c╶─╴a╶─┐            ┌─╴e╶─╴c╶─┐
+        ├─╴b╶─╴c╶─┤            ├─╴d╶─╴e╶─┤
+      ╶─┼─╴a╶─╴b╶─┼─╴        ╶─┼─╴c╶─╴d╶─┼─╴
+        ├─╴d╶─╴e╶─┤            ├─╴a╶─╴b╶─┤
+        └─╴e╶─╴d╶─┘            └─╴b╶─╴a╶─┘
+    
+    Five indexes (a,b,c,d,e) in these two structures all have the same
+    location {{1,1},{1,2}}, but it's very difficult to correctly order between
+    the three-element set and double-element set.
+
+  # Symmetry
+
+    The very rich tensorial symmetry is impossible to be expressed only by
+    Mathematica's Orderless property, which is basically a simple
+    all-permutation-symmetry, with phase always equal to 1.
+
+    Once the indexed format of tensor is constructed, symmetry can be
+    calculate with user-defined enumerating method.
+
+  # User-friendly
+
+    Using MakeBoxes + InterpretationBox an expression can be display in a
+    succinct way, while keep all the information. Use InputForm to transform a
+    potentially non-lossless interpretation back into InputForm.
 
 vim:ft=markdown

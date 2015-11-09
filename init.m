@@ -1,5 +1,8 @@
 (* ::Package:: *)
 
+Begin["SymbolicTensor`temp`"]
+
+
 With[
     {
         packageDir = "SymbolicTensorDev",
@@ -7,9 +10,9 @@ With[
     },
 
     Quiet[
-        (con \[Function] Remove @ Evaluate @ StringJoin[con, "*"]) /@ Contexts[packageContext <> "*"],
-        {Remove::rmnsm, Remove::rmptc}
-        (* Message: no symbol matched & protected symbol *)
+        (con \[Function] ClearAll @ Evaluate @ StringJoin[con, "*"]) /@ Contexts[packageContext <> "*"],
+        {ClearAll::wrsym}
+        (* Message: protected symbol *)
     ];
 ]
 
@@ -25,6 +28,7 @@ With[
 << "SymbolicTensorDev/Utility/DumbIndexList.m"
 << "SymbolicTensorDev/Utility/OccurrenceSequence.m"
 << "SymbolicTensorDev/operation/DotProduct.m"
+<< "SymbolicTensorDev/operation/MakeBoxes.m"
 << "SymbolicTensorDev/operation/Part.m"
 << "SymbolicTensorDev/operation/TensorContract.m"
 << "SymbolicTensorDev/operation/TensorProduct.m"
@@ -48,17 +52,10 @@ With[
 (**   - inject SymbolicTensor` into $ContextPath
  *    - define some shortcuts
  *)
-BeginPackage["SymbolicTensor`"];
+    SymbolicTensor`SSimplify = SymbolicTensor`SymbolicSimplify`Simplify;
+    SymbolicTensor`TrF = SymbolicTensor`Scope`Transform[SymbolicTensor`DumbIndex];
     
-    STensor = SymbolicTensor`SymbolicTensor;
-    SSum = SymbolicTensor`SymbolicSum;
-    SSimplify = SymbolicTensor`SymbolicSimplify`Simplify;
-    ReformatList = SymbolicTensor`ReformatList;
+    $ContextPath = Union[ $ContextPath, {"SymbolicTensor`"} ];
+
     
-EndPackage[];
-
-
-
-
-
-
+End[];

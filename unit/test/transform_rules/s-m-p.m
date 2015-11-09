@@ -5,6 +5,9 @@
 RecursiveGet["transform_rules/s-m-p.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SS = SymbolicTensor`SymbolicSum,
@@ -13,7 +16,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             SS[ (a[i_,j_] + b[j_,i_]) c[i_], SI[{i_},{j_}] ],
             SS[ a[i_,j_] c[i_] + b[j_, i_] c[i_], SI[{i_},{j_}] ],
@@ -29,4 +32,4 @@ With[
 ]
 
 
-
+End[];

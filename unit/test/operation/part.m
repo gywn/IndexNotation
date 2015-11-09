@@ -5,6 +5,9 @@
 RecursiveGet["operation/Part.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -15,7 +18,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             ST[ a[i_, j_] b[k_], TI[ {k_}, {j_, n}, {i_, 3} ] ][[1, 2, 3]],
             a[1, 2] b[3],
@@ -53,3 +56,6 @@ With[
         ]
     }
 ]
+
+
+End[];

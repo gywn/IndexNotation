@@ -12,6 +12,9 @@ RecursiveGet[
 ]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -23,7 +26,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             SS[ (a + 2( b[j_] + c[i_]) + a[i_]) a[i_] b[j_], SI[ {i_}, {j_} ] ],
             SS[a a[i_] b[j_], SI[{i_}, {j_}]] + SS[a[i_]^2 b[j_], SI[{i_}, {j_}]]
@@ -39,3 +42,6 @@ With[
         ]
     }  
 ]
+
+
+End[];

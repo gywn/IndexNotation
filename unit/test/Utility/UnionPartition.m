@@ -5,6 +5,9 @@
 RecursiveGet["Utility/UnionPartition.m"];
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SI = SymbolicTensor`SumIndex,
@@ -14,7 +17,7 @@ With[
         iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             Block[
                 { rpl = UP[
@@ -47,3 +50,6 @@ With[
         ]
     }
 ]
+
+
+End[];

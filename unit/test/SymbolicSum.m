@@ -5,6 +5,9 @@
 RecursiveGet["SymbolicSum.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         SS = SymbolicTensor`SymbolicSum,
@@ -13,7 +16,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             SS[A, SI[]], A,
             TestID -> "SymbolicSum -- identity_1"
@@ -89,4 +92,4 @@ With[
 ]
 
 
-
+End[];

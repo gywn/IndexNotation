@@ -5,12 +5,15 @@
 RecursiveGet["QuotientStructure.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {    
         QSr = SymbolicTensor`QuotientStructure`Sort
     },
     
-    {    
+    Global`RESULTS = {
         VerificationTest[
             QSr[{a,b,c,d}][{b c,a+b,a+c,a b,3+a,3 b}],
             {3+a,a+b,a+c,3 b,b c,a b},
@@ -36,3 +39,6 @@ With[
         ]
     }
 ]
+
+
+End[];

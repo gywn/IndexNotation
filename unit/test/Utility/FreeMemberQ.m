@@ -5,6 +5,9 @@
 RecursiveGet["Utility/FreeMemberQ.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -18,7 +21,7 @@ With[
         FMQ = SymbolicTensor`Utility`FreeMemberQ
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             FrM[ SS[ i_, SI[{i_}] ], i_ ],
             flt[]
@@ -45,3 +48,6 @@ With[
         ]
     }
 ]
+
+
+End[];

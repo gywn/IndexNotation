@@ -5,6 +5,9 @@
 RecursiveGet["Scope/Transform.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -20,7 +23,7 @@ Block[
     {indexfunc},
     
     indexfunc[i_] := Idx[i];
-    {
+    Global`RESULTS = {
         VerificationTest[
             ScT[indexfunc] @ ST[ SS[ a_ + b_, SI[{a_,4}] ], TI[{b_,3}] ],
             ST[ SS[ Idx[1] + Idx[2], SI[{Idx[1],4}] ], TI[{Idx[2],3}] ],
@@ -85,4 +88,4 @@ Block[
 ]
 
 
-
+End[];

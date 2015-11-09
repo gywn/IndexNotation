@@ -5,6 +5,9 @@
 RecursiveGet["transform_rules/s-d.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         KD = KroneckerDelta,
@@ -14,7 +17,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             SS[ KD[i_, i_, j_] , SI[ {i_, 3}, {j_, 4} ] ],
             Hold @ SS[ KD[i_, i_, j_] , SI[ {i_, 3}, {j_, 4} ] ],
@@ -76,3 +79,6 @@ With[
         ]
     }
 ]
+
+
+End[];

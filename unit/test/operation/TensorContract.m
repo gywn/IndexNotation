@@ -5,6 +5,9 @@
 RecursiveGet["operation/TensorContract.m"]
 
 
+Begin["SymbolicTensor`test`"];
+
+
 With[
     {
         ST = SymbolicTensor`SymbolicTensor,
@@ -15,7 +18,7 @@ With[
         DI = SymbolicTensor`DumbIndex
     },
     
-    {
+    Global`RESULTS = {
         VerificationTest[
             TensorContract[ ST[ A[i_, j_] B[k_, l_] C[m_], TI[ {m_, 4}, {l_, 2}, {k_, 3}, {j_, 3}, {i_, 2} ] ], {{2,3},{1,4}} ],
             ST[ SS[ SS[ A[DI[2], DI[1]] B[DI[1], DI[2]] C[DI[3]], SI[ {DI[1], 3} ] ], SI[ {DI[2], 2} ] ], TI[ {DI[3], 4} ] ],
@@ -53,3 +56,6 @@ With[
         ]
     }
 ]
+
+
+End[];
