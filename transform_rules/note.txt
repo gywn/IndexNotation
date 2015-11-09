@@ -1,4 +1,8 @@
 
+    T-T ╶► T
+    S-S ╶► S
+    S-M ╶► M-S-M   (if possible)
+
     M-T ╶► T-M  ╶╮                                            
     P-T ╶► T-P   ├►   T-(S,P,M)      ╶╮                       
     S-T ╶► T-S  ╶╯                    │                       
@@ -6,6 +10,7 @@
     S-M-P ╶► S-P-M  ╶╮                │                       
     S-P   ╶► P-S     ├►  (P,M)-S-M   ╶╯                       
     S-M-S ╶► S-M    ╶╯                                                                
+
               
     T - Tensor       S - Sum
     P - Plus         M - Times

@@ -4,48 +4,49 @@ Begin["SymbolicTensor`temp`"];
 
 
 With[
-	{
-		ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
-		
-		DIL = SymbolicTensor`Utility`DumbIndexList,
-		FMQ = SymbolicTensor`Utility`FreeMemberQ,
-		ScR = SymbolicTensor`Scope`Replace,
-	
-		ScT = SymbolicTensor`Scope`Transform
-	},	
-	
+    {
+    	ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+    	
+    	DIL = SymbolicTensor`Utility`DumbIndexList,
+    
+    	ScU = SymbolicTensor`Scope`UniqueIndex,
+    	ScTa = SymbolicTensor`Scope`TransformAux,
+    	ScT = SymbolicTensor`Scope`Transform
+    },	
+    
 (**     Transform
  *
  *    - Transform[indexfunc][x] rename all dumb indexes in x with indexfunc. 
- *    - Transform's goal is to use a minimal number of distincted indexes.
+ *    - Transform's goal is to assure that all structual equivalent expressions
+ *      will be identical after index transformation. This is achieved by
+ *      treating the expression as quotient expression (c.f. QuotientStructure)
+ *      and generating its dumb indexes' occurence sequence (c.f.
+ *      OccurenceSequence).
  *
  *      indexfunc
- *	
- *    - indexfunc[n] should return the n-th dumb index notation
- *    - ScT calls indexfunc sequencially, so indexfunc[n_] can be implemented as
- *
- *          indexfunc[1] := IndexFuncStart
- *          indexfunc[_] := IndexFuncNext
- *
- *      which is literally an iterator
- *)		
-			
-	ScT[indexfunc_][ x_ ] := 
-		x /. s : ScH[__] :> Block[
-			{ rpl },
-			
-			rpl = Block[
-				{ n = 0, new },
-		
-				(
-					While[ FMQ[ s, Verbatim[ new = indexfunc[ ++n ] ] ] ];
-					Verbatim[#] -> new
-				)& /@ DIL[ s ]
-			];
-			
-			(ScT[indexfunc] @ ScR[#, rpl])& /@ s
-		];
-];	
+ *    
+ *    - indexfunc[n] should return the n-th dumb index notation, beginning from 1.
+ *    - indexfunct will be called in a random manner.
+ *)    	
+    ScT[indexfunc_][x_] := ScTa[indexfunc][ ScU[x], {} ];
+    
+    ScTa[indexfunc_][x_, eis_List] := 
+    	x /. (h : ScH)[x1_, vrs_, opt___] :> Block[
+            {uniqx, uniq, rpl},
+    		
+            uniqx = ScTa[indexfunc][ x1, Join[ eis, Cases[ vrs, {i_, ___} :> i ] ] ];
+    		uniq = h[uniqx, vrs, opt];
+    		rpl = Block[
+    			{n = 0, new},
+    			
+    			(
+    				While[ MemberQ[ uniq, Verbatim[ new = indexfunc[++n] ], Infinity ] ];
+    				Verbatim[#] -> new
+    			)& /@ DIL[uniq, eis]
+    		];
+    		uniq /. rpl
+    	]
+];    
 
 
 End[];

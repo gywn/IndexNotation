@@ -6,6 +6,44 @@
 
   - Customize/rewrite Series[]
   
+  # Basic ordering comparison
+  
+    Suppose there is an ordering Or(x,y). For two ordered list (a1,a2, ...)
+    and (b1,b2, ...), if (a1==b1)&&(a2==b2)&&... then we have {a1,a2, ...} ==
+    {b1,b2, ...}.
+  
+  # Quotient ordering
+  
+    It means that the ordering treats some sub-expressions as sharing a same
+    order value. If we traverse the items of such two lists from small order
+    value to big order value, sub-expressions sharing same order value will be
+    visited 'simultaneously'.
+    
+    c.f. QuotientStructure`*
+    
+  # Reduce quotient ordering
+  
+    We can concretize *some* equivalent sub-expressions. It should be done in
+    a way that only iteration-order information is used ('simultaneously'
+    visited sub-expressions have eventually same iteration-order). It should
+    also be deterministic in a sense that other informations shall be taken
+    into accounts to distinguish two sub-expression iff they have exact same
+    iteration-order.
+    
+    For now OccurrenceSequence`* always concretize *all* equivalent sub-
+    expressions.
+    
+    We should first concretize dumb indexes in the inner-most scope, because
+    their iteration-order don't depend on outer world. Its deterministic
+    concretization serves as foundation of concretization of outer scope who
+    encloses it.
+    
+    However, the real values of all dumb indexes should be replaced by
+    something unique to give way to inner-most *deterministic*
+    concretization...
+    
+    For now Transform iterates from out-most scope to inner-most.
+  
   # About Symmetry
   
   - Now the symmetry is implemented by (A is a tensor with symmetry):
@@ -20,3 +58,6 @@
   - Better to store symmetry information in Derivative when A is simple:
   
         Derivative [(a,b)] [B] [A]
+
+
+vim:ft=markdown

@@ -32,10 +32,10 @@
  *    - define some shortcuts
  *)
 BeginPackage["SymbolicTensor`"];
-	
-	ST = SymbolicTensor`SymbolicTensor;
-	SS = SymbolicTensor`SymbolicSum;
-	
+    
+    ST = SymbolicTensor`SymbolicTensor;
+    SS = SymbolicTensor`SymbolicSum;
+    
 EndPackage[];
 
 
