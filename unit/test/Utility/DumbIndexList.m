@@ -72,17 +72,17 @@ With[
         ],
         
         VerificationTest[
-            DIL[ SS[ i_ k_ k_ + j_ l_ k_, SI[{i_}, {j_}] ], {k_, l_} ],
+            DIL[ SS[ SI[i_,k_,k_] + SI[j_,l_,k_], SI[{i_}, {j_}] ], {k_, l_} ],
             {j_, i_},
             TestID -> "exterior dumb index: totally determinated by exterior"
         ],
         
         VerificationTest[
-            DIL[ SS[ j_ k_ k_ + i_ l_ l_, SI[{i_}, {j_}] ], {k_, l_} ],
-            {i_, j_},
+            DIL[ SS[ SI[j_,k_,k_] + SI[i_,l_,l_], SI[{i_}, {j_}] ], {k_, l_} ],
+            {j_, i_},
             TestID -> "exterior dumb indexes: fall back to explicit comparing"
         ]
-    }    
+    }
 ]
 
 

@@ -49,6 +49,17 @@ With[
 
         VerificationTest[
             Block[
+                {a = A[j_, i_], b = 0},
+
+                SS[a, b] = A[i_, j_];
+                {a, b}
+            ],
+            { A[i_, j_], SI[] },
+            TestID -> "SymbolicTensor -- direct unpacking assignement, empty sum"
+        ],
+
+        VerificationTest[
+            Block[
                 {a = A[j_, i_], b = 0, c = k_},
 
                 SS[a, b, c] = SS[ A[i_, j_], SI[ {i_}, {j_} ] ];

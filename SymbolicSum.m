@@ -35,6 +35,11 @@ With[
         vrs1 = vrs2;
     );
 
+    SS /: ( SS[x1_, vrs1_] = x2_ ) := (
+        x1 = x2;
+        vrs1 = SI[];
+    );
+
     SS /: ( SS[x1_, vrs1_, opt1_] = SS[x2_, vrs2_, opt2___] ) := (
         x1 = x2;
         vrs1 = vrs2;

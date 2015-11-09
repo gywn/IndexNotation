@@ -8,7 +8,7 @@ With[
         ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
         
         QSr = SymbolicTensor`QuotientStructure`Sort,
-        QSp = SymbolicTensor`QuotientStructure`Split,
+        QGt = SymbolicTensor`QuotientStructure`Gather,
         
         msql = SymbolicTensor`Utility`OccurrenceSequence`MainSequential,
         sql = SymbolicTensor`Utility`OccurrenceSequence`Sequential,
@@ -21,22 +21,29 @@ With[
     
 (**     OccurrenceSequence`*
   *
-  *   - Given index list 'is' and expression 'x', ComplexSequence produce a complex
-  *     structure indicating occurrence sequence of elements of 'is' inside 'x', e.g.
+  *   - Given index list 'is' and expression 'x', ComplexSequence produce a
+  *     complex structure indicating occurrence sequence of elements of 'is'
+  *     inside 'x', e.g.
   *
   *         seq = Sequential[ c, Simultaneous[ Sequential[a,b],Sequential[c,d] ], a, ...]
   *                           1  2             -          1 2  -          1 2     3
    *
-  *     Then Trace produce an association 'loc' of indexes' locations in 'seq', e.g.
+  *     Then FillLocation produce an association 'loc' of indexes' locations in
+  *     'seq', then sort it with QuotientStructure`*, e.g.
   *
+  *         loc[c] := {{1},{2,1}}
   *         loc[a] := {{2,1},{3}}
   *         loc[b] := {{2,2}}
-  *         loc[c] := {{1},{2,1}}
   *         loc[d] := {{2,2}}
   *
-  *     At last, OccurrenceSequence mixes 'loc' and indexes together, insert it into
-  *     'seq'. The sorting will be done automatically by Orderless attribute of 
-  *     'Simultaneous'.
+  *     loc is then split into clusters, only the first cluster is taken as
+  *     sorted, elements from the such cluster are 'instantiated' in 'seq', and
+  *     deleted from 'is'. The new 'seq' and new 'is' are then used to call
+  *     OccurenceSequence again, until seq is empty.
+  *
+  *     Mathematically speaking, this algorithm is correct when the first
+  *     cluster has always only one element. The fully correct algorithm is yet
+  *     to be constructed.
   *)    
     
     SetAttributes[sml, Orderless];
@@ -55,7 +62,7 @@ With[
 
     CoS[ h_[x1___], is_List ] := If[
         MatchQ[h, _Symbol] && MemberQ[ Attributes[h], Orderless ],
-        sql @@ (eqset \[Function] sml @@ (y \[Function] CoS[y, is]) /@ eqset) /@ QSp[is][ {x1} ],
+        sql @@ (eqset \[Function] sml @@ (y \[Function] CoS[y, is]) /@ eqset) /@ QGt[is][ {x1} ],
         sql @@ (y \[Function] CoS[y, is]) /@ {h, x1}
     ];
 
@@ -64,7 +71,7 @@ With[
     SetAttributes[fill, HoldFirst];
 
     fill[ loc_, cur_, seq : (sql|msql)[___] ] :=
-        (MapIndexed[ fill[loc, Append[cur,#2[[1]]], #1 ]&, seq ];);
+        (MapIndexed[ fill[loc, Append[cur, #2[[1]]], #1 ]&, seq ];);
         
     fill[loc_, cur_, seq_sml] := (fill[loc, cur, # ]& /@ seq;);
     
@@ -74,24 +81,43 @@ With[
         loc[i] = {cur}
     ];
     
-    OcS[x_, is_List] := Block[
+    OcS[x_, sorted_List, is_List, eis_List] := Block[
         {
+            srt, cnt,
             loc = <||>,
-            seq = msql @ CoS[x, is]
+            seq = msql @ CoS[ x, Join[is, eis] ]
         },
-        
-        fill[loc, {}, seq];   (* fill loc *)
-        loc = QSr[{}][#]& /@ loc;
 
-        (* Print[loc]; *)
-        
-        seq = seq
-            /. i : (Alternatives @@ Verbatim /@ is) :> {loc[i], i}
-            /. HoldPattern @ sml[x1__] :> sql @@ QSr[is][ {x1} ];
-            (* sml and sql all have rewriting rules. They should be used with caution *)
+        If[
+            seq =!= msql[],
+
+            fill[loc, {}, seq];   (* fill loc *)
+            loc = QSr[{}][#]& /@ loc;
+            cnt = Counts[Values @ loc];
+            loc = QSr[is] @ AssociationMap[
+                Block[
+                    { cn = cnt @ #[[2]] },
+
+                    #[[1]] -> { cn, If[ cn === 1, 0, #[[1]] ], #[[2]] }
+                ]&,
+                loc
+            ]; 
+            srt = First @ SplitBy[Keys @ loc, loc];
+            
+            OcS[
+                seq /. (Verbatim[#] -> Unique[]& /@ srt),
+                Join[ sorted, Complement[srt, eis] ],
+                Complement[is, srt],
+                Complement[eis, srt]
+            ],
+
+            sorted
+        ]
+    ];
     
-        DeleteDuplicates[ List @@ (#[[2]]& /@ seq) ]
-    ]
+    OcS[x_, is_List, eis_List] := OcS[x, {}, is, eis];
+    
+    OcS[x_, is_List] := OcS[ x, {}, is, {} ];
 ]
 
 

@@ -8,7 +8,7 @@ TestList = {
     "SymbolicTensorDev/unit/test/QuotientStructure/OrderedQ.m",
     "SymbolicTensorDev/unit/test/QuotientStructure/SameQ.m",
     "SymbolicTensorDev/unit/test/QuotientStructure/Sort.m",
-    "SymbolicTensorDev/unit/test/QuotientStructure/Split.m",
+    "SymbolicTensorDev/unit/test/QuotientStructure/Gather.m",
     
     "SymbolicTensorDev/unit/test/Utility/DumbIndexList.m",
     "SymbolicTensorDev/unit/test/Utility/FreeMemberQ.m",
@@ -44,7 +44,9 @@ TestList = {
     "SymbolicTensorDev/unit/test/operation/Part.m",
     "SymbolicTensorDev/unit/test/operation/TensorProduct.m",
     "SymbolicTensorDev/unit/test/operation/TensorContract.m",
-    "SymbolicTensorDev/unit/test/operation/TensorTranspose.m"
+    "SymbolicTensorDev/unit/test/operation/TensorTranspose.m",
+    "SymbolicTensorDev/unit/test/operation/DotProduct.m",
+    "SymbolicTensorDev/unit/test/operation/Tr.m"
 };
 
 Block[
@@ -53,7 +55,7 @@ Block[
     {time, count} = AbsoluteTiming[ ( path \[Function] Block[
         { results = Get[path] },
         
-        ( result \[Function] If[ result["Outcome"] =!= "Success", Print[path, ": ", result] ]; )
+        ( result \[Function] If[ result["Outcome"] =!= "Success", Print[path, "\n", result] ] )
             /@ If[ MatchQ[ results, _List], results, {results} ]
     ] ) /@ TestList ];
 

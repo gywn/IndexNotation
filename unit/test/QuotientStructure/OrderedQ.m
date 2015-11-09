@@ -22,7 +22,7 @@ With[
         ],
         
         VerificationTest[
-            QOQ[{Ind[1],Ind[2],Ind[3]}][ a, Ind[1] ], False,
+            QOQ[{Ind[1],Ind[2],Ind[3]}][ a, Ind[1] ], True,
             TestID -> "QuotientStructure`OrderedQ -- orderless terms"
         ]
     }

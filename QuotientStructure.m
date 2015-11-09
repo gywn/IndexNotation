@@ -10,7 +10,7 @@ With[
         QOQ = SymbolicTensor`QuotientStructure`OrderedQ,
         QSr = SymbolicTensor`QuotientStructure`Sort,
         QSQ = SymbolicTensor`QuotientStructure`SameQ,
-        QSp = SymbolicTensor`QuotientStructure`Split
+        QGt = SymbolicTensor`QuotientStructure`Gather
     },
     
 (**   # QuotientStructure`Order
@@ -28,9 +28,9 @@ With[
   *   # QuotientStructure`OrderedQ
   *   # QuotientStructure`SameQ
   *   # QuotientStructure`Sort
-  *   # QuotientStructure`Split
+  *   # QuotientStructure`Gather
   *
-  *     They are 'quotient' counter parts of OrderedQ, SameQ, Sort and Split.
+  *     They are 'quotient' counter parts of OrderedQ, SameQ, Sort and Gather.
   *)    
   
     QO[is_List][x_, y_] := Block[
@@ -40,9 +40,9 @@ With[
         },
         
         Switch[ {xm, ym},
-            {True, False}, +1,
+            {True, False}, -1,
             {True, True},   0,
-            {False, True}, -1
+            {False, True}, +1
         ]
             /; xm || ym
     ];
@@ -77,11 +77,11 @@ With[
 
     QOQ[is_List][x_, y_] := QO[is][x, y] >= 0;
 
-    QSr[is_List][xs_List] := Sort[ xs, QOQ[is] ];
+    QSr[is_List][xs_List|xs_Association] := Sort[ xs, QOQ[is] ];
     
     QSQ[is_List][x_, y_] := QO[is][x, y] === 0;
     
-    QSp[is_List][xs_List] := Split[ QSr[is][xs], QSQ[is] ];
+    QGt[is_List][xs_List] := Split[ QSr[is][xs], QSQ[is] ];
 ]
 
 

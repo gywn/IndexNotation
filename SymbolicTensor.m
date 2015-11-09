@@ -38,6 +38,11 @@ With[
         vrs1 = vrs2;
     );
 
+    ST /: ( ST[x1_, vrs1_] = x2_ ) := (
+        x1 = x2;
+        vrs1 = TI[];
+    );
+
     ST /: ( ST[x1_, vrs1_, opt1_] = ST[x2_, vrs2_, opt2___] ) := (
         x1 = x2;
         vrs1 = vrs2;

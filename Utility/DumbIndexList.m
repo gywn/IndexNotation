@@ -22,11 +22,8 @@ With[
     
     DIL[ s : ScH[ x_, vrs : vh_[___], opt___], eis_List ] := If[
         MemberQ[ Attributes[vh], Orderless ],
-        Block[
-            { is = Cases[ vrs, {i_, ___} :> i ] },
-
-            Select[ OcS[ {x, vrs, opt}, Join[eis, is] ], MemberQ[ is, Verbatim[#] ]& ]
-        ],
+        
+        OcS[ {x, vrs, opt}, Cases[ vrs, {i_, ___} :> i ], eis ],
         Cases[ Reverse @ vrs, {i_, ___} :> i ]
     ];
 ]

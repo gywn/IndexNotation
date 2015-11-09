@@ -84,6 +84,30 @@ With[
             OcS[ d, {a,b,c} ],
             {},
             TestID -> "OccurrenceSequence -- no occurrence"
+        ],
+        
+        VerificationTest[
+            OcS[ A[a b] + B[c, b] + B[d, a], {a,b,c,d} ],
+            {a,b,d,c},
+            TestID -> "KNOWN BUG: Multiple-orderless choices"
+        ],
+        
+        VerificationTest[
+            OcS[ {A[a,b] B[c d] C[b, c] C[a, d]}, {a,b,c,d} ],
+            {a,b,d,c},
+            TestID -> "pure internal coupled indexes"
+        ],
+        
+        VerificationTest[
+            OcS[ {A[a b] B[a, d] B[b, c]}, {a,b}, {c,d} ] - {b,a},
+            OcS[ {A[a b] B[b, d] B[a, c]}, {a,b}, {c,d} ] - {a,b},
+            TestID -> "mixed coupled indexes: external has priority"
+        ],
+        
+        VerificationTest[
+            OcS[ A[e f] A[f g] A[g e] A[a b] A[b c] A[c d] A[d a], {a,b,c,d,e,f,g} ] - {e,f,g,a,b,d,c},
+            OcS[ A[a b] A[b c] A[c a] A[d e] A[e f] A[f g] A[g d], {a,b,c,d,e,f,g} ] - {a,b,c,d,e,g,f},
+            TestID -> "KNOWN BUG: Multiple-orderless choices"
         ]
     }
 ]

@@ -23,13 +23,13 @@ With[
         TT[ s, {perm, 1} ];
 
     ST /: TT[s_ST] := 
-        TT[ s, { {2,1}, 1 } ];
+        TT[ s, { {2, 1}, 1 } ];
 
     ST /: Tr[s_ST, perm_List|perm_Cycles] := 
         TT[ s, {perm, 1} ];
 
     ST /: Tr[s_ST] := 
-        TT[ s, { {2,1}, 1 } ];
+        TT[ s, { {2, 1}, 1 } ];
 ]
 
 

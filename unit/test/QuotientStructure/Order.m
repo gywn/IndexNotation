@@ -23,12 +23,12 @@ With[
         ],
         
         VerificationTest[
-            QO[ {Ind[1], Ind[2], Ind[3]} ][ Ind[3], H[ F[a] ] ], 1,
+            QO[ {Ind[1], Ind[2], Ind[3]} ][ Ind[3], H[ F[a] ] ], -1,
             TestID -> "QuotientStructure`Order -- dumb indexes + complex structure 1"
         ],
         
         VerificationTest[
-            QO[ {Ind[1], Ind[2], Ind[3]} ][ H[ F[a] ], Ind[3] ], -1,
+            QO[ {Ind[1], Ind[2], Ind[3]} ][ H[ F[a] ], Ind[3] ], +1,
             TestID -> "QuotientStructure`Order -- dumb indexes + complex structure 2"
         ],
         
@@ -44,7 +44,7 @@ With[
             QO[ {Ind[1], Ind[2], Ind[3]} ][
                 wp[Ind[3], H, Ind[2]],
                 wp[Ind[2], Ind[1], H]
-            ], -1,
+            ], +1,
             TestID -> "QuotientStructure`Order -- wrapper 2"
         ],
         
@@ -52,7 +52,7 @@ With[
             QO[ {Ind[1], Ind[2], Ind[3]} ][
                 Ind[3] + F + G,
                 H + Ind[1] + Ind[2]
-            ], -1,
+            ], +1,
             TestID -> "QuotientStructure`Order -- orderless terms"
         ],
         
@@ -60,7 +60,7 @@ With[
             QO[ {Ind[1], Ind[2], Ind[3]} ][
                 {Ind[3], F, G},
                 {H, Ind[1], Ind[2]}
-            ], 1,
+            ], -1,
             TestID -> "QuotientStructure`Order -- orderless terms (non-orderless)"
         ],
         

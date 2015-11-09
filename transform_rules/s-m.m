@@ -30,7 +30,7 @@ With[
         clrpl = UP[ Values[mlps], vrs ];
         clids = DeleteDuplicates @ Values[clrpl];
  
-        valid = Length[clids] > 1 || clids === {rES}; 
+        valid = Length[clids] > 1 || clids === {rES} || ( clids =!= {iES} && MemberQ[ mlps, {} ] ); 
         If[
             valid,
 

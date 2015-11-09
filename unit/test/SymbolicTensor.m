@@ -49,6 +49,17 @@ With[
 
         VerificationTest[
             Block[
+                {a = A[j_, i_], b = 0},
+
+                ST[a, b] = A[i_, j_];
+                {a, b}
+            ],
+            { A[i_, j_], TI[] },
+            TestID -> "SymbolicTensor -- direct unpacking assignement, empty tensor"
+        ],
+
+        VerificationTest[
+            Block[
                 {a = A[j_, i_], b = 0, c = k_},
 
                 ST[a, b, c] = ST[ A[i_, j_], TI[ {i_}, {j_} ] ];

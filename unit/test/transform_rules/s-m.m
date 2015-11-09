@@ -15,6 +15,12 @@ With[
     
     {
         VerificationTest[
+            SS[ a b[i_], SI[{i_, 2}] ],
+            a SS[ b[DI[1]], SI[{DI[1], 2}] ],
+            TestID -> "s-m -- etract constant"
+        ],
+        
+        VerificationTest[
             SS[ a, SI[{i_, 2},{j_, 3}] ],
             6 a,
             TestID -> "s-m -- atom expression"
