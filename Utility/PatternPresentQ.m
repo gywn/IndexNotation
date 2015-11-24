@@ -1,11 +1,11 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        PPQ = SymbolicTensor`Utility`PatternPresentQ,
+        PPQ = IndexNotation`Utility`PatternPresentQ,
         IPPQ = Internal`PatternPresentQ
     },
     

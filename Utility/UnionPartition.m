@@ -1,13 +1,13 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum,
-        rES = SymbolicTensor`Utility`UnionPartition`ReducibleEmptySum,
-        UP = SymbolicTensor`Utility`UnionPartition
+        iES = IndexNotation`Utility`UnionPartition`IrreducibleEmptySum,
+        rES = IndexNotation`Utility`UnionPartition`ReducibleEmptySum,
+        UP = IndexNotation`Utility`UnionPartition
     },
     
 (**     UnionPartition
@@ -28,7 +28,7 @@ With[
         ris = Cases[ vrs, {i_, n_, ___} :> i ];
     
         (set \[Function] With[
-            { setid = Unique[] },
+            { setid = $ModuleNumber ++ },
             
             (vertex \[Function]
                 If[

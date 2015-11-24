@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet[
     "transform_rules/s-m-p.m",
@@ -15,25 +15,25 @@ RecursiveGet[
 ]
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
 
-        DI = SymbolicTensor`DumbIndex
+        DI = IndexNotation`DummyIndex
     },
     
     Global`RESULTS = {   
         VerificationTest[
-            SS[ b[i_] SS[ b[j_] ST[ a[i_, j_], TI[ {i_, 2}, {j_, 3} ] ] + c[j_], SI[ {j_, 4} ] ], SI[ {i_, 4} ] ],
-            ST[ a[DI[3], DI[2]] SS[ b[DI[1]], SI[ {DI[1], 4} ] ]^2, TI[ {DI[3], 2}, {DI[2], 3} ] ]
-                + SS[ c[DI[1]], SI[ {DI[1], 4} ] ] SS[ b[DI[1]], SI[ {DI[1], 4} ] ],
+            IS[ b[i] IS[ b[j] IT[ a[i, j], TI[ {i, 2}, {j, 3} ] ] + c[j], SI[ {j, 4} ] ], SI[ {i, 4} ] ],
+            IT[ a[DI[3], DI[2]] IS[ b[DI[1]], SI[ {DI[1], 4} ] ]^2, TI[ {DI[3], 2}, {DI[2], 3} ] ]
+                + IS[ c[DI[1]], SI[ {DI[1], 4} ] ] IS[ b[DI[1]], SI[ {DI[1], 4} ] ],
             TestID -> "1"
         ]
     }

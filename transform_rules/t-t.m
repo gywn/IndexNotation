@@ -1,24 +1,25 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
+
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScT = SymbolicTensor`Scope`Transform,
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex
+        indexfunc = IndexNotation`DummyIndex
     },
     
     
-    ST[s_ST, vrs2_] :=  Block[
+    IT[s_IT, vrs2_] :=  Block[
         {x, vrs1},
         
-        ST[x, vrs1] = ScU[s];
-        ScT[indexfunc] @ ST[ x, Join[vrs1, vrs2] ]
+        IT[x, vrs1] = ScU[s];
+        ScT[indexfunc] @ IT[ x, Join[vrs1, vrs2] ]
     ];
 ]
 

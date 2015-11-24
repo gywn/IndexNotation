@@ -1,21 +1,21 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     { 
-        ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+        ScH = IndexNotation`IndexTensor | IndexNotation`IndexSum,
         
-        FrM = SymbolicTensor`Utility`FreeMember,
-        flt = SymbolicTensor`Utility`FreeMember`Flat,
-        FMQ = SymbolicTensor`Utility`FreeMemberQ
+        FrM = IndexNotation`Utility`FreeMember,
+        flt = IndexNotation`Utility`FreeMember`Flat,
+        FMQ = IndexNotation`Utility`FreeMemberQ
     },
 
 (**     FreeMemberQ[s, i]
   *
-  *   - Return True if 'i' occurs in 'x' but not as a dumb index
-  *   - Utility`FreeMember is similar to Utility`OccurrenceSequence, but a little bit faster.
+  *   - Return True if 'i' occurs in 'x' but not as a dummy index
+  *   - Utility`FreeMember is similar to Utility`SortedIndex, but a little bit faster.
   *)
     SetAttributes[flt, Flat];
 

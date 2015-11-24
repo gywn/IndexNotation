@@ -1,27 +1,27 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScT = SymbolicTensor`Scope`Transform,
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex
+        indexfunc = IndexNotation`DummyIndex
     },
     
-    ST /: p : Times[s_ST, y__] := Block[
+    IT /: p : Times[s_IT, y__] := Block[
         {x, vrs},
 
         If[
-            \[Not] MemberQ[ {y}, _ST ],
+            \[Not] MemberQ[ {y}, _IT ],
 
-            ST[x, vrs] = ScU[s];
-            ScT[indexfunc] @ ST[ Times[x, y], vrs ],
+            IT[x, vrs] = ScU[s];
+            ScT[indexfunc] @ IT[ Times[x, y], vrs ],
 
             Hold[p]
         ]

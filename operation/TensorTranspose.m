@@ -1,34 +1,35 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
+
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScT = SymbolicTensor`Scope`Transform,
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex,
+        indexfunc = IndexNotation`DummyIndex,
 
         TT = TensorTranspose,
         Tr = Transpose
     },
     
-    ST /: TT[ ST[x_, vrs_], {perm_List|perm_Cycles, phase_} ] := 
-        ScT[indexfunc][ ST[ phase x, Reverse @ Permute[ Reverse[vrs], perm ] ] ];
+    IT /: TT[ IT[x_, vrs_], {perm_List|perm_Cycles, phase_} ] := 
+        ScT[indexfunc][ IT[ phase x, Reverse @ Permute[ Reverse[vrs], perm ] ] ];
 
-    ST /: TT[s_ST, perm_List|perm_Cycles] := 
+    IT /: TT[s_IT, perm_List|perm_Cycles] := 
         TT[ s, {perm, 1} ];
 
-    ST /: TT[s_ST] := 
+    IT /: TT[s_IT] := 
         TT[ s, { {2, 1}, 1 } ];
 
-    ST /: Tr[s_ST, perm_List|perm_Cycles] := 
+    IT /: Tr[s_IT, perm_List|perm_Cycles] := 
         TT[ s, {perm, 1} ];
 
-    ST /: Tr[s_ST] := 
+    IT /: Tr[s_IT] := 
         TT[ s, { {2, 1}, 1 } ];
 ]
 

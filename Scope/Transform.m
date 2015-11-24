@@ -1,31 +1,31 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        ScH = SymbolicTensor`SymbolicTensor | SymbolicTensor`SymbolicSum,
+        ScH = IndexNotation`IndexTensor | IndexNotation`IndexSum,
         
-        DIL = SymbolicTensor`Utility`DumbIndexList,
+        ScL = IndexNotation`Scope`DummyIndexList,
     
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScTa = SymbolicTensor`Scope`TransformAux,
-        ScT = SymbolicTensor`Scope`Transform
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScTa = IndexNotation`Scope`TransformAux,
+        ScT = IndexNotation`Scope`Transform
     },    
     
 (**     Transform
  *
- *    - Transform[indexfunc][x] rename all dumb indexes in x with indexfunc. 
+ *    - Transform[indexfunc][x] rename all dummy indices in x with indexfunc. 
  *    - Transform's goal is to assure that all structual equivalent expressions
  *      will be identical after index transformation. This is achieved by
  *      treating the expression as quotient expression (c.f. QuotientStructure)
- *      and generating its dumb indexes' occurence sequence (c.f.
+ *      and generating its dummy indices' occurence sequence (c.f.
  *      OccurenceSequence).
  *
  *      indexfunc
  *    
- *    - indexfunc[n] should return the n-th dumb index notation, beginning from 1.
+ *    - indexfunc[n] should return the n-th dummy index notation, beginning from 1.
  *    - indexfunct will be called in a random manner.
  *)        
     ScT[indexfunc_][x_] := ScTa[indexfunc][ ScU[x], {} ];
@@ -42,7 +42,7 @@ With[
                 (
                     While[ MemberQ[ uniq, Verbatim[ new = indexfunc[++n] ], Infinity ] ];
                     Verbatim[#] -> new
-                )& /@ DIL[uniq, eis]
+                )& /@ ScL[uniq, eis]
             ];
             uniq /. rpl
         ]

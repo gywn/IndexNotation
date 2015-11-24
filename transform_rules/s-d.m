@@ -1,21 +1,21 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
         KD = KroneckerDelta,
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScT = SymbolicTensor`Scope`Transform,
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex
+        indexfunc = IndexNotation`DummyIndex
     },
     
-    s : SS[
+    s : IS[
         x : Times[ KD[i_, j_, ___] | KD[i_, j_, ___]^_ ? IntegerQ, __ ]
             | KD[i_, j_, ___] | KD[i_, j_, ___]^_ ? IntegerQ,
         SI[ {i_, n___}, vrs___ ]
@@ -28,13 +28,13 @@ With[
             Which[
                 vrj === {},
 
-                x1 = ScU @ SS[ x, SI[vrs] ];
+                x1 = ScU @ IS[ x, SI[vrs] ];
                 ScT[indexfunc][ x1 /. <|i -> j|> ],
 
                 MatchQ[ vrj, Verbatim @ {{j, n}} ],
 
-                x1 = ScU @ SS[ x, SI @@ DeleteCases[ {vrs}, Verbatim @ {j, n} ] ];
-                ScT[indexfunc][ SS[ x1 /. <|i -> j|>, SI[{j, n}] ] ],
+                x1 = ScU @ IS[ x, SI @@ DeleteCases[ {vrs}, Verbatim @ {j, n} ] ];
+                ScT[indexfunc][ IS[ x1 /. <|i -> j|>, SI[{j, n}] ] ],
 
                 True,
                 

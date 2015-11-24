@@ -1,20 +1,20 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["Utility/UnionPartition.m"];
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        SI = SymbolicTensor`SumIndex,
+        SI = IndexNotation`SumIndex,
         
-        UP = SymbolicTensor`Utility`UnionPartition,
-        rES = SymbolicTensor`Utility`UnionPartition`ReducibleEmptySum,
-        iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum
+        UP = IndexNotation`Utility`UnionPartition,
+        rES = IndexNotation`Utility`UnionPartition`ReducibleEmptySum,
+        iES = IndexNotation`Utility`UnionPartition`IrreducibleEmptySum
     },
     
     Global`RESULTS = {

@@ -1,25 +1,25 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["operation/MakeBoxes.m"]
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
 
-        DI = SymbolicTensor`DumbIndex
+        DI = IndexNotation`DummyIndex
     },
     
     Global`RESULTS = 
-    ST[ SS[ Subscript[A, {i_, j_, k_}], {k_} ], {i_,2}, {j_} ]
+    IT[ IS[ Subscript[A, {i_, j_, k_}], {k_} ], {i_,2}, {j_} ]
 ]
 
 

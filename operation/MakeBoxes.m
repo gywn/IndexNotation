@@ -1,20 +1,20 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
 
-        DI = SymbolicTensor`DumbIndex,
+        DI = IndexNotation`DummyIndex,
         
-        IA = SymbolicTensor`$IndexAlphabet,
-        IB = SymbolicTensor`$IndexBackground,
-        IFC = SymbolicTensor`$IndexFontColor
+        IA = IndexNotation`$IndexAlphabet,
+        IB = IndexNotation`$IndexBackground,
+        IFC = IndexNotation`$IndexFontColor
     },
     
     IA = {
@@ -28,7 +28,7 @@ With[
     IB = Automatic;
     IFC = Gray;
     
-    ST /: MakeBoxes[s : ST[ x_, TI[is__List] ], StandardForm] := With[
+    IT /: MakeBoxes[s : IT[ x_, TI[is__List] ], StandardForm] := With[
         { boxes = SubscriptBox[
             StyleBox[ RowBox[{ "[", ToBoxes[x], "]" }], SpanMaxSize -> Infinity ],
             RowBox[ ToBoxes /@ First /@ Reverse[{is}] ]
@@ -37,7 +37,7 @@ With[
         InterpretationBox[boxes, s]
     ];
     
-    SS /: MakeBoxes[s : SS[ x_, SI[is__List] ], StandardForm] := With[
+    IS /: MakeBoxes[s : IS[ x_, SI[is__List] ], StandardForm] := With[
         { boxes = RowBox[{
             UnderscriptBox[ "\[Sum]", RowBox[ ToBoxes /@ First /@ {is} ] ],
             StyleBox[ RowBox[{ "(", ToBoxes[x], ")" }], SpanMaxSize -> Infinity ]

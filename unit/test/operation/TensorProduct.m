@@ -1,33 +1,33 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["operation/TensorProduct.m"]
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        DI = SymbolicTensor`DumbIndex
+        DI = IndexNotation`DummyIndex
     },
     
     Global`RESULTS = {
         VerificationTest[
-            ST[ a[i_, j_], TI[ {j_}, {i_} ] ] \[TensorProduct] ST[ b[i_, j_], TI[ {j_}, {i_} ] ],
-            ST[ a[DI[1], DI[2]] b[DI[3], DI[4]], TI[ {DI[4]}, {DI[3]}, {DI[2]}, {DI[1]} ] ],
+            IT[ a[i_, j_], TI[ {j_}, {i_} ] ] \[TensorProduct] IT[ b[i_, j_], TI[ {j_}, {i_} ] ],
+            IT[ a[DI[1], DI[2]] b[DI[3], DI[4]], TI[ {DI[4]}, {DI[3]}, {DI[2]}, {DI[1]} ] ],
             TestID -> "number index" 
         ],
 
         VerificationTest[
-            ST[ a[i_], TI[ {i_} ] ] \[TensorProduct] ST[ b[i_], TI[ {i_} ] ] \[TensorProduct] ST[ c[i_], TI[ {i_} ] ],
-            ST[ a[DI[1]] b[DI[2]] c[DI[3]], TI[ {DI[3]}, {DI[2]}, {DI[1]} ] ],
+            IT[ a[i_], TI[ {i_} ] ] \[TensorProduct] IT[ b[i_], TI[ {i_} ] ] \[TensorProduct] IT[ c[i_], TI[ {i_} ] ],
+            IT[ a[DI[1]] b[DI[2]] c[DI[3]], TI[ {DI[3]}, {DI[2]}, {DI[1]} ] ],
             TestID -> "chain tensor product" 
         ]
     }

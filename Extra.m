@@ -1,14 +1,14 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        DI = SymbolicTensor`DumbIndex
+        DI = IndexNotation`DummyIndex
     },
     
-    (* Rules outside of SymbolicTensor` *)
+    (* Rules outside of IndexNotation` *)
     
     MakeBoxes[k : KroneckerDelta[i__], StandardForm] := With[
         { boxes = SubscriptBox[ "\[Delta]", ToBoxes @ {i} ] },

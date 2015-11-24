@@ -1,19 +1,19 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        indexfunc = SymbolicTensor`DumbIndex
+        indexfunc = IndexNotation`DummyIndex
     },
     
-    SS[ Plus[x_, y__], vrs_ ]
-        (*/; OcS[ x, Verbatim /@ vrs[[All, 1]] ] =!= {}*)
-        := SS[x, vrs] + SS[Plus[y], vrs];
+    IS[ Plus[x_, y__], vrs_ ]
+        (*/; SrI[ x, Verbatim /@ vrs[[All, 1]] ] =!= {}*)
+        := IS[x, vrs] + IS[Plus[y], vrs];
 ]
 
 

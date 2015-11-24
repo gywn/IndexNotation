@@ -2,8 +2,13 @@
 
 With[
     {
-        packageDir = "SymbolicTensorDev",
-        packageContext = "SymbolicTensor"
+        packageDir = "IndexNotation",
+        packageContext = "IndexNotation",
+        appsPath = FileNameJoin[{ $UserBaseDirectory, "Applications" }],
+        
+        (* dep.py and init_test.m should be under the same folder.
+         * "python dep.py -h" for more informations *)
+        depPath = FileNameJoin[{ DirectoryName[$InputFileName], "dep.py" }]
     },
 
     Quiet[
@@ -16,7 +21,7 @@ With[
         {cmd, packages},
         
         cmd = StringJoin @ Riffle[ Join[
-            {"!", "~/workspace/mathematica/dep", "--package-dir", packageDir, "--package-context", packageContext},
+            {"!", "python", depPath, "--apps-dir", appsPath, "--package-context", packageContext},
             "'" <> # <> "'" & /@ {s}
         ], " " ];
         packages = Import[cmd, {"Text", "Lines"}];

@@ -1,15 +1,15 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["Utility/PatternPresentQ.m"];
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
-    {PPQ = SymbolicTensor`Utility`PatternPresentQ},
+    {PPQ = IndexNotation`Utility`PatternPresentQ},
     
     Global`RESULTS = {
         VerificationTest[

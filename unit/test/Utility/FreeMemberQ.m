@@ -1,49 +1,49 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["Utility/FreeMemberQ.m"]
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        FrM = SymbolicTensor`Utility`FreeMember,
-        flt = SymbolicTensor`Utility`FreeMember`Flat,
-        FMQ = SymbolicTensor`Utility`FreeMemberQ
+        FrM = IndexNotation`Utility`FreeMember,
+        flt = IndexNotation`Utility`FreeMember`Flat,
+        FMQ = IndexNotation`Utility`FreeMemberQ
     },
     
     Global`RESULTS = {
         VerificationTest[
-            FrM[ SS[ i_, SI[{i_}] ], i_ ],
+            FrM[ IS[ i_, SI[{i_}] ], i_ ],
             flt[]
         ],
         
         VerificationTest[
-            FrM[ SS[ A[i_, j_], SI[{i_}] ], j_ ],
+            FrM[ IS[ A[i_, j_], SI[{i_}] ], j_ ],
             flt[j_]
         ],
         
         VerificationTest[
-            FMQ[ SS[ i_, SI[{i_}] ], i_ ],
+            FMQ[ IS[ i_, SI[{i_}] ], i_ ],
             False
         ],
         
         VerificationTest[
-            FMQ[ SS[ j_, SI[{k_}, {j_, 3}, {k_}] ], j_ ],
+            FMQ[ IS[ j_, SI[{k_}, {j_, 3}, {k_}] ], j_ ],
             False
         ],
     
         VerificationTest[
-            FMQ[ i_ + SS[ i_, SI[{i_}] ], i_ ],
+            FMQ[ i_ + IS[ i_, SI[{i_}] ], i_ ],
             True
         ]
     }

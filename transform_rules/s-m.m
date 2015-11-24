@@ -1,32 +1,38 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
                 
-        OcS = SymbolicTensor`Utility`OccurrenceSequence,
-        UP = SymbolicTensor`Utility`UnionPartition,
-        iES = SymbolicTensor`Utility`UnionPartition`IrreducibleEmptySum,
-        rES = SymbolicTensor`Utility`UnionPartition`ReducibleEmptySum,
+        SrI = IndexNotation`Utility`SortedIndex,
+        UP = IndexNotation`Utility`UnionPartition,
+        iES = IndexNotation`Utility`UnionPartition`IrreducibleEmptySum,
+        rES = IndexNotation`Utility`UnionPartition`ReducibleEmptySum,
         
-        ScT = SymbolicTensor`Scope`Transform,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex,
+        indexfunc = IndexNotation`DummyIndex,
         
-        mlp = SymbolicTensor`temp`MultiplicationFragment,
-        idx = SymbolicTensor`temp`IndexesFragment
+        mlp = IndexNotation`Private`MultiplicationFragment,
+        idx = IndexNotation`Private`IndicesFragment
     },
     
-    s : SS[ p_Times | c_ ? AtomQ, vrs_ ] := Block[
-        {x, is, mlps, clrpl, clids, valid, clmlp, clvar, free = 1},
+    IS::ispp = "If you use IndexSum as pattern, consider wrap it with HoldPattern: `1`";
+    
+    s : IS[x_, vrs_] := Block[
+        {is, mlps, clrpl, clids, valid, clmlp, clvar, free = 1},
         
-        x = p c;
+        If[
+            Internal`PatternPresentQ @ Hold[s],
+            Message[ IS::ispp, HoldForm[s] ]
+        ];
+        
         is = Cases[ vrs, {i_, ___} :> i ];
-        mlps = AssociationMap[ OcS[#, is]&, If[ AtomQ[x], {x}, List @@ x ] ];
+        mlps = AssociationMap[ SrI[#, is]&, If[ MatchQ[x, _Times], List @@ x, {x} ] ];
         clrpl = UP[ Values[mlps], vrs ];
         clids = DeleteDuplicates @ Values[clrpl];
  
@@ -59,7 +65,7 @@ With[
                 ]
             ]) /@ vrs );
             
-            free ScT[indexfunc][ Times @@ Values @ MapThread[ SS, {clmlp, clvar} ] ] 
+            free ScT[indexfunc][ Times @@ Values @ MapThread[ IS, {clmlp, clvar} ] ] 
         ]
             /; valid
     ];

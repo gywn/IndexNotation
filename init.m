@@ -1,12 +1,12 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"]
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        packageDir = "SymbolicTensorDev",
-        packageContext = "SymbolicTensor"
+        packageDir = "IndexNotation",
+        packageContext = "IndexNotation"
     },
 
     Quiet[
@@ -17,45 +17,46 @@ With[
 ]
 
 
-<< "SymbolicTensorDev/DumbIndex.m"
-<< "SymbolicTensorDev/QuotientStructure.m"
-<< "SymbolicTensorDev/Utility/UnionPartition.m"
-<< "SymbolicTensorDev/SymbolicSimplify/LeafCount.m"
-<< "SymbolicTensorDev/Scope/Transform.m"
-<< "SymbolicTensorDev/Scope/UniqueIndex.m"
-<< "SymbolicTensorDev/SymbolicSum.m"
-<< "SymbolicTensorDev/SymbolicTensor.m"
-<< "SymbolicTensorDev/Utility/DumbIndexList.m"
-<< "SymbolicTensorDev/Utility/OccurrenceSequence.m"
-<< "SymbolicTensorDev/operation/DotProduct.m"
-<< "SymbolicTensorDev/operation/MakeBoxes.m"
-<< "SymbolicTensorDev/operation/Part.m"
-<< "SymbolicTensorDev/operation/TensorContract.m"
-<< "SymbolicTensorDev/operation/TensorProduct.m"
-<< "SymbolicTensorDev/operation/TensorTranspose.m"
-<< "SymbolicTensorDev/operation/Tr.m"
-<< "SymbolicTensorDev/transform_rules/m-t.m"
-<< "SymbolicTensorDev/transform_rules/p-t.m"
-<< "SymbolicTensorDev/transform_rules/s-d.m"
-<< "SymbolicTensorDev/transform_rules/s-m-p.m"
-<< "SymbolicTensorDev/transform_rules/s-m-s.m"
-<< "SymbolicTensorDev/transform_rules/s-p.m"
-<< "SymbolicTensorDev/transform_rules/s-s.m"
-<< "SymbolicTensorDev/transform_rules/s-t.m"
-<< "SymbolicTensorDev/transform_rules/t-t.m"
-<< "SymbolicTensorDev/TensorFlatten.m"
-<< "SymbolicTensorDev/Utility/FreeMemberQ.m"
-<< "SymbolicTensorDev/transform_rules/s-m.m"
-<< "SymbolicTensorDev/SymbolicSimplify/ReduceEmptySum.m"
-<< "SymbolicTensorDev/SymbolicSimplify/Simplify.m"
+<< "IndexNotation/DummyIndex.m"
+<< "IndexNotation/Utility/QuotientStructure.m"
+<< "IndexNotation/Utility/UnionPartition.m"
+<< "IndexNotation/IndexSimplify/LeafCount.m"
+<< "IndexNotation/IndexSum.m"
+<< "IndexNotation/IndexTensor.m"
+<< "IndexNotation/Scope/DummyIndexList.m"
+<< "IndexNotation/Scope/Transform.m"
+<< "IndexNotation/Scope/UniqueIndex.m"
+<< "IndexNotation/Utility/SortedIndex.m"
+<< "IndexNotation/operation/DotProduct.m"
+<< "IndexNotation/operation/MakeBoxes.m"
+<< "IndexNotation/operation/Part.m"
+<< "IndexNotation/operation/TensorContract.m"
+<< "IndexNotation/operation/TensorProduct.m"
+<< "IndexNotation/operation/TensorTranspose.m"
+<< "IndexNotation/operation/Tr.m"
+<< "IndexNotation/transform_rules/m-t.m"
+<< "IndexNotation/transform_rules/p-t.m"
+<< "IndexNotation/transform_rules/s-d.m"
+<< "IndexNotation/transform_rules/s-m-p.m"
+<< "IndexNotation/transform_rules/s-m-s.m"
+<< "IndexNotation/transform_rules/s-p.m"
+<< "IndexNotation/transform_rules/s-s.m"
+<< "IndexNotation/transform_rules/s-sd.m"
+<< "IndexNotation/transform_rules/s-t.m"
+<< "IndexNotation/transform_rules/t-sd.m"
+<< "IndexNotation/transform_rules/t-t.m"
+<< "IndexNotation/DoubleContract.m"
+<< "IndexNotation/IndexFlatten.m"
+<< "IndexNotation/TensorDerivative.m"
+<< "IndexNotation/Utility/FreeMemberQ.m"
+<< "IndexNotation/transform_rules/s-m.m"
 
-(**   - inject SymbolicTensor` into $ContextPath
+(**   - inject IndexNotation` into $ContextPath
  *    - define some shortcuts
  *)
-    SymbolicTensor`SSimplify = SymbolicTensor`SymbolicSimplify`Simplify;
-    SymbolicTensor`TrF = SymbolicTensor`Scope`Transform[SymbolicTensor`DumbIndex];
+    IndexNotation`TrF = IndexNotation`Scope`Transform[IndexNotation`DummyIndex];
     
-    $ContextPath = Union[ $ContextPath, {"SymbolicTensor`"} ];
+    $ContextPath = Union[ $ContextPath, {"IndexNotation`"} ];
 
-    
+
 End[];

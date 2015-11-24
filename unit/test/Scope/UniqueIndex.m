@@ -1,29 +1,29 @@
 (* ::Package:: *)
 
-<< "SymbolicTensorDev/unit/lib/init_test.m"
+<< "IndexNotation/unit/lib/init_test.m"
 
 RecursiveGet["Scope/UniqueIndex.m"]
 
 
-Begin["SymbolicTensor`test`"];
+Begin["IndexNotation`test`"];
 
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex
+        ScU = IndexNotation`Scope`UniqueIndex
     },
     
     Global`RESULTS = {
         VerificationTest[
             MatchQ[
-                ScU[ ST[ a_[SS[ a_, SI[{a_}] ]], TI[{a_}, {b_}]] ],
-                ST[ a_[SS[ c_, SI[{c_}] ]], TI[{a_}, {b_}]] /; 
+                ScU[ IT[ a_[IS[ a_, SI[{a_}] ]], TI[{a_}, {b_}]] ],
+                IT[ a_[IS[ c_, SI[{c_}] ]], TI[{a_}, {b_}]] /; 
                     Length @ Union[{a,b,c}] == 3
             ],
             True, 

@@ -1,21 +1,22 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
+
 
 With[
     {
-        ST = SymbolicTensor`SymbolicTensor,
-        TI = SymbolicTensor`TensorIndex,
+        IT = IndexNotation`IndexTensor,
+        TI = IndexNotation`TensorIndex,
         
-        ScU = SymbolicTensor`Scope`UniqueIndex,
-        ScT = SymbolicTensor`Scope`Transform,
+        ScU = IndexNotation`Scope`UniqueIndex,
+        ScT = IndexNotation`Scope`Transform,
         
-        indexfunc = SymbolicTensor`DumbIndex,
+        indexfunc = IndexNotation`DummyIndex,
 
         TC = TensorContract
     },
     
-    ST /: ( s1 : ST[_, vrs1_] ).( s2 : ST[_, _] ) := 
+    IT /: ( s1 : IT[_, vrs1_] ).( s2 : IT[_, _] ) := 
         TC[ s1 \[TensorProduct] s2, { Length[vrs1] + {0,1} } ]
 ]
 

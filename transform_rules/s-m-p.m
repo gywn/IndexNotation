@@ -1,23 +1,23 @@
 (* ::Package:: *)
 
-Begin["SymbolicTensor`temp`"];
+Begin["IndexNotation`Private`"];
 
 
 With[
     {
-        SS = SymbolicTensor`SymbolicSum,
-        SI = SymbolicTensor`SumIndex,
+        IS = IndexNotation`IndexSum,
+        SI = IndexNotation`SumIndex,
         
-        indexfunc = SymbolicTensor`DumbIndex
+        indexfunc = IndexNotation`DummyIndex
     },
     
     (**
      *  Simple sum like (2+\[Pi]) won't be attributed
      *)
     
-    SS[ Times[ Plus[x_, y__], z__ ], vrs_ ]
-        (*/; OcS[ x, Verbatim /@ vrs[[All, 1]] ] =!= {}*)
-        := SS[ Times[x, z] + Times[ Plus[y], z ], vrs ];
+    IS[ Times[ Plus[x_, y__], z__ ], vrs_ ]
+        (*/; SrI[ x, Verbatim /@ vrs[[All, 1]] ] =!= {}*)
+        := IS[ Times[x, z] + Times[ Plus[y], z ], vrs ];
 ]
 
 
